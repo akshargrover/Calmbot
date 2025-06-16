@@ -1,3 +1,5 @@
 langchain_mistralai
 langchain
 python-dotenv
+streamlit
+pandas
