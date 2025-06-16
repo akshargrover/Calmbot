@@ -1,11 +1,13 @@
 import os
+os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
+
 import streamlit as st
 import pandas as pd
 from dotenv import load_dotenv
 from langchain.prompts import PromptTemplate
 from langchain.chains import ConversationalRetrievalChain
-from langchain.vectorstores import Chroma
-from langchain.embeddings import GoogleGenerativeAIEmbeddings
+from langchain_community.vectorstores import FAISS
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_google_genai import ChatGoogleGenerativeAI
@@ -22,22 +24,22 @@ DB_DIR = "chroma_db"
 os.makedirs(DOCS_DIR, exist_ok=True)
 
 # --- STREAMLIT UI ---
-st.set_page_config(page_title="CalmBot - Mental Health RAG", page_icon="🧘")
-st.title("🧘 CalmBot - Mental Health Chatbot")
+st.set_page_config(page_title="CalmBot - Mental Health Assistant", page_icon="🧘")
+st.title("🧘 CalmBot - Mental Health Assistant")
 st.markdown("This assistant answers based on curated mental health documents.")
 
 # --- LOAD & PROCESS DOCUMENTS ---
 def load_documents():
     loader = DirectoryLoader(DOCS_DIR, glob="*.pdf", loader_cls=PyPDFLoader)
     docs = loader.load()
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=3000, chunk_overlap=100)
     return text_splitter.split_documents(docs)
 
 docs = load_documents()
 
 # --- VECTOR STORE ---
 embedding_model = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key=GOOGLE_API_KEY)
-vectorstore = Chroma.from_documents(docs, embedding_model, persist_directory=DB_DIR)
+vectorstore = FAISS.from_documents(docs, embedding_model)
 retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
 
 # --- LLM & PROMPT ---
@@ -63,7 +65,11 @@ CalmBot:"""
 )
 
 # --- MEMORY & RAG CHAIN ---
-memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
+memory = ConversationBufferMemory(
+    memory_key="chat_history",
+    return_messages=True,
+    output_key="answer"
+)
 
 rag_chain = ConversationalRetrievalChain.from_llm(
     llm=llm,
@@ -78,11 +84,11 @@ if "chat_log" not in st.session_state:
 if "show_sources" not in st.session_state:
     st.session_state.show_sources = False
 
-user_input = st.text_input("You:", placeholder="What’s on your mind today?")
+user_input = st.text_input("You:", placeholder="What's on your mind today?")
 st.session_state.show_sources = st.checkbox("📎 Show Sources", value=st.session_state.show_sources)
 
 if user_input:
-    result = rag_chain({"question": user_input})
+    result = rag_chain.invoke({"question": user_input})
     answer = result["answer"]
     sources = result.get("source_documents", [])
 
