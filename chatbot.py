@@ -10,31 +10,45 @@ from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.memory import ConversationBufferMemory
+from langchain_community.document_loaders import DirectoryLoader
 
-# Load env variables
+# Load API key
 load_dotenv()
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
-# 1. Load documents and split
-loader = PyPDFLoader("documents/mental_health.pdf")
-documents = loader.load()
-splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
-docs = splitter.split_documents(documents)
+# Paths
+DOCS_DIR = "mental_health_docs"
+DB_DIR = "chroma_db"
+os.makedirs(DOCS_DIR, exist_ok=True)
 
-# 2. Create vector store using embeddings
+# --- STREAMLIT UI ---
+st.set_page_config(page_title="CalmBot - Mental Health RAG", page_icon="🧘")
+st.title("🧘 CalmBot - Mental Health Chatbot")
+st.markdown("This assistant answers based on curated mental health documents.")
+
+# --- LOAD & PROCESS DOCUMENTS ---
+def load_documents():
+    loader = DirectoryLoader(DOCS_DIR, glob="*.pdf", loader_cls=PyPDFLoader)
+    docs = loader.load()
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
+    return text_splitter.split_documents(docs)
+
+docs = load_documents()
+
+# --- VECTOR STORE ---
 embedding_model = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key=GOOGLE_API_KEY)
-vectorstore = Chroma.from_documents(docs, embedding_model, persist_directory="chroma_db")
+vectorstore = Chroma.from_documents(docs, embedding_model, persist_directory=DB_DIR)
 retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
 
-# 3. Gemini Flash LLM
+# --- LLM & PROMPT ---
 llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.3, google_api_key=GOOGLE_API_KEY)
 
-# 4. Prompt template (optional customization)
 prompt_template = PromptTemplate(
     input_variables=["chat_history", "question", "context"],
     template="""
 You are CalmBot, a kind and supportive mental health assistant.
-Answer the user using the context below. Be empathetic, helpful, and never give medical advice.
+Use the context to answer empathetically and supportively.
+Avoid medical advice. Stay grounded in the provided knowledge.
 
 Context:
 {context}
@@ -48,38 +62,42 @@ User Question:
 CalmBot:"""
 )
 
-# 5. Memory
+# --- MEMORY & RAG CHAIN ---
 memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
 
-# 6. RAG Chain
 rag_chain = ConversationalRetrievalChain.from_llm(
     llm=llm,
     retriever=retriever,
     memory=memory,
     return_source_documents=True,
-    verbose=False,
 )
 
-# 7. Streamlit UI
-st.set_page_config(page_title="CalmBot RAG Chat", page_icon="💬")
-st.title("🧘 CalmBot - Mental Health Support (RAG + Gemini Flash)")
-
+# --- CHAT UI ---
 if "chat_log" not in st.session_state:
     st.session_state.chat_log = []
+if "show_sources" not in st.session_state:
+    st.session_state.show_sources = False
 
-user_input = st.text_input("You:", placeholder="What's on your mind today?")
+user_input = st.text_input("You:", placeholder="What’s on your mind today?")
+st.session_state.show_sources = st.checkbox("📎 Show Sources", value=st.session_state.show_sources)
 
 if user_input:
     result = rag_chain({"question": user_input})
     answer = result["answer"]
+    sources = result.get("source_documents", [])
 
     st.session_state.chat_log.append(("You", user_input))
     st.session_state.chat_log.append(("CalmBot", answer))
 
-    # Save to CSV
+    if st.session_state.show_sources:
+        for i, src in enumerate(sources):
+            metadata = src.metadata
+            source_info = f"📄 Source {i+1}: {metadata.get('source', 'Unknown Source')}"
+            st.session_state.chat_log.append(("Source", source_info))
+
     log_df = pd.DataFrame(st.session_state.chat_log, columns=["Sender", "Message"])
     log_df.to_csv("chat_log.csv", index=False)
 
-# Show chat history
+# --- DISPLAY CHAT HISTORY ---
 for sender, msg in st.session_state.chat_log:
     st.markdown(f"**{sender}:** {msg}")
