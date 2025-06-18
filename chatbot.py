@@ -49,6 +49,7 @@ prompt_template = PromptTemplate(
     input_variables=["chat_history", "question", "context"],
     template="""
 You are CalmBot, a kind and supportive mental health assistant.
+Tailor adaptive prompts based on user mood and provide personalized self-care suggestions.
 Use the context to answer empathetically and supportively.
 Avoid medical advice. Stay grounded in the provided knowledge.
 
