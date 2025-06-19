@@ -1,11 +1,3 @@
 Sender,Message
-You,I'm feeling overwhelmed—what can I do right now to feel better?
-CalmBot,"Based on the provided text, you can try deep breathing exercises: inhale deeply through your nose, hold for a few seconds, and exhale slowly through your mouth.  You could also try engaging in an activity you enjoy, even something small like listening to music or reading."
-Source,📄 Source 1: mental_health_docs\A Guide to Understanding and Managing Depression.pdf
-Source,📄 Source 2: mental_health_docs\A Guide to Understanding and Managing Depression.pdf
-Source,📄 Source 3: mental_health_docs\A Comprehensive Guide to Coping Strategies.pdf
-You,"According to the document on coping strategies, what’s recommended during high stress?"
-CalmBot,"The document recommends several strategies for managing high stress, categorized into problem-focused coping (directly addressing the source of stress) and emotion-focused coping (managing the emotional response).  Specific examples include problem-solving, seeking information, relaxation techniques, and seeking support from others.  Additionally, it suggests limiting exposure to stressors, learning to say no, and prioritizing tasks.  Finally, the document notes that seeking professional help, such as therapy or medication, is also an option if self-help strategies are insufficient."
-Source,📄 Source 1: mental_health_docs\A Comprehensive Guide to Coping Strategies.pdf
-Source,📄 Source 2: mental_health_docs\A Comprehensive Guide to Coping Strategies.pdf
-Source,📄 Source 3: mental_health_docs\A Comprehensive Guide to Coping Strategies.pdf
+You,I am feeling anxious 
+CalmBot,"I understand you're feeling anxious.  The text I have access to provides some coping strategies, such as deep breathing exercises (inhale for 4 counts, hold for 4, exhale for 6) and suggests seeking help from a qualified healthcare provider or using crisis hotlines.  For crisis hotlines, in the US you can dial or text 988, and in the UK you can call 111 (NHS) or 116 123 (Samaritans).  Remember that anxiety is a common and treatable condition."
