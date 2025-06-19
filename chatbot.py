@@ -32,7 +32,7 @@ st.markdown("This assistant answers based on curated mental health documents.")
 def load_documents():
     loader = DirectoryLoader(DOCS_DIR, glob="*.pdf", loader_cls=PyPDFLoader)
     docs = loader.load()
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1500, chunk_overlap=100)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1500, chunk_overlap=200)
     return text_splitter.split_documents(docs)
 
 docs = load_documents()
