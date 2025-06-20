@@ -1,3 +1,19 @@
 Sender,Message
-You,I am feeling anxious 
-CalmBot,"I understand you're feeling anxious.  The text I have access to provides some coping strategies, such as deep breathing exercises (inhale for 4 counts, hold for 4, exhale for 6) and suggests seeking help from a qualified healthcare provider or using crisis hotlines.  For crisis hotlines, in the US you can dial or text 988, and in the UK you can call 111 (NHS) or 116 123 (Samaritans).  Remember that anxiety is a common and treatable condition."
+CalmBot,"I understand you're feeling anxious.  The provided text describes anxiety as a common and treatable condition with various symptoms affecting the mind, body, and behavior.  If your anxiety is significantly impacting your daily life, it's recommended to seek professional help from a doctor, psychiatrist, psychologist, therapist, or counselor.  The text also offers several coping strategies such as mastering your breath and building a strong support system.  However, I am not qualified to give medical advice."
+You,I feel anxious
+CalmBot,"Based on the provided text, if you are feeling anxious, you could try the following coping strategies:
+
+1. **Master your breath:** Practice deep, slow breathing exercises.
+
+2. **Grounding techniques:**  Focus on your five senses – 5 things you see, 4 things you feel, 3 things you hear, 2 things you smell, and 1 thing you taste. This helps shift your focus to the present.
+
+3. **Engage in regular physical activity:** Even a short walk can release endorphins and reduce tension.  Yoga and Tai Chi are also helpful.
+
+4. **Prioritize healthy habits:** Eat a balanced diet, get enough sleep (7-9 hours), and limit alcohol and nicotine.
+
+5. **Challenge anxious thoughts:** Identify negative thought patterns, question their accuracy, and reframe them into more realistic ones.
+
+6. **Set boundaries and manage stressors:** Learn to say no, use time management techniques, delegate tasks, and take breaks.
+
+If these self-help strategies don't provide sufficient relief, or if your anxiety is persistent and interfering with your daily life, the guide recommends seeking professional help from a doctor, psychiatrist, psychologist, therapist, or counselor.  They can provide further assessment and treatment options."
+You,"I'm feeling anxious, what should I do?"
