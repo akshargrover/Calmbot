@@ -1,5 +1,14 @@
 # CalmBot 🧘
 
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.10-blue?logo=python&logoColor=white" alt="Python" />
+  <img src="https://img.shields.io/badge/Streamlit-FF4B4B?logo=streamlit&logoColor=white" alt="Streamlit" />
+  <img src="https://img.shields.io/badge/LangChain-FFD700?logo=data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjRkZGIiB2aWV3Qm94PSIwIDAgMzAgMzAiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCI+PHJlY3Qgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIiByeD0iNSIvPjwvc3ZnPg==" alt="LangChain" />
+  <img src="https://img.shields.io/badge/Google%20Gemini-4285F4?logo=google&logoColor=white" alt="Google Gemini" />
+  <img src="https://img.shields.io/badge/FAISS-009688?logo=data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDA5Njg4IiB2aWV3Qm94PSIwIDAgMzAgMzAiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCI+PHJlY3Qgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIiByeD0iNSIvPjwvc3ZnPg==" alt="FAISS" />
+  <img src="https://img.shields.io/badge/Pandas-150458?logo=pandas&logoColor=white" alt="Pandas" />
+</p>
+
 CalmBot is a compassionate mental health chatbot that uses Retrieval-Augmented Generation (RAG) to provide supportive, empathetic, and informative responses based on curated mental health documents. It leverages Google Gemini and LangChain for natural language understanding and document retrieval.
 
 ## Features
