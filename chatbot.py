@@ -63,7 +63,7 @@ but always avoid giving any medical or diagnostic advice.
 Your answer can be a combination of the context and your own general understanding.
 
 Your role is to support, listen, and guide.
-You must answer in a calm, friendly, and emotionally supportive tone.
+You must answer in a supportive, calm, friendly, and emotionally supportive tone.
 
 --------------------------
 Relevant Context (from documents):
