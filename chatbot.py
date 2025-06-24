@@ -17,7 +17,6 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.memory import ConversationBufferMemory
 from langchain_community.document_loaders import DirectoryLoader
-# from datetime import datetime
 
 # Load API key
 load_dotenv()
