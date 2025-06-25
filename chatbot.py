@@ -41,6 +41,26 @@ def load_documents():
 
 docs = load_documents()
 
+def check_crisis_words(text):
+    crisis_keywords = [
+        "suicide", "kill myself", "end my life", "self-harm", "hurt myself", "take my life",
+        "want to die", "can't go on", "give up on life", "ending it all", "no reason to live","i want to give up",
+        "i want to leave this world","i want to kill myself","i want to end it all","i want to give up on life",
+        "i want to end my life",
+    ]
+    text_lower = text.lower()
+    return any(word in text_lower for word in crisis_keywords)
+
+CRISIS_RESPONSE = (
+    "I'm really sorry you're feeling this way. You're not alone — there are people who care about you and want to help."
+    "💙 Please reach out to someone you trust or contact a mental health professional."
+    "**If you're in immediate danger**, please call emergency services or reach out to a suicide prevention hotline:"
+    "- 🇺🇸 USA: 988"
+    "- 🇮🇳 India: 9152987821 (AASRA)"
+    "- 🌍 Global: [Find hotlines](https://findahelpline.com)"
+    "You're valued and your life matters. Talking to someone can make a big difference."
+)
+
 # --- VECTOR STORE ---
 embedding_model = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key=GOOGLE_API_KEY)
 vectorstore = FAISS.from_documents(docs, embedding_model)
@@ -121,14 +141,19 @@ st.session_state.show_sources = st.checkbox("📎 Show Sources", value=st.sessio
 # --- Response generation ---
 if "user_input" in st.session_state and st.session_state.user_input:
     query = st.session_state.user_input
-    result = rag_chain.invoke({"question": query})
-    answer = result["answer"]
-    sources = result.get("source_documents", [])
+    
+    if check_crisis_words(query):
+        answer = CRISIS_RESPONSE
+        sources = []
+    else:
+        result = rag_chain.invoke({"question": query})
+        answer = result["answer"]
+        sources = result.get("source_documents", [])
 
     st.session_state.chat_log.insert(0, ("You", query))
     st.session_state.chat_log.insert(0, ("CalmBot", answer))
 
-    if st.session_state.show_sources:
+    if st.session_state.show_sources and sources:
         for i, src in enumerate(sources):
             metadata = src.metadata
             source_info = f"📄 Source {i+1}: {metadata.get('source', 'Unknown Source')}"
