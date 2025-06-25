@@ -121,6 +121,24 @@ st.session_state.show_sources = st.checkbox("📎 Show Sources", value=st.sessio
 # --- Response generation ---
 if "user_input" in st.session_state and st.session_state.user_input:
     query = st.session_state.user_input
+    # Crisis detection block
+    crisis_keywords = ["give up", "suicide", "kill myself", "end it all", "I can't take it"]
+    if any(kw in query.lower() for kw in crisis_keywords):
+        crisis_response = (
+            "I'm really sorry you're feeling this way. You're not alone — there are people who care about you and want to help."
+            "💙 Please reach out to someone you trust or contact a mental health professional."
+            "**If you're in immediate danger**, please call emergency services or reach out to a suicide prevention hotline:"
+            "- 🇺🇸 USA: 988"
+            "- 🇮🇳 India: 9152987821 (AASRA)"
+            "- 🌍 Global: [Find hotlines](https://findahelpline.com)"
+            "You're valued and your life matters. Talking to someone can make a big difference."
+        )
+        st.session_state.chat_log.insert(0, ("You", query))
+        st.session_state.chat_log.insert(0, ("CalmBot", crisis_response))
+        log_df = pd.DataFrame(st.session_state.chat_log, columns=["Sender", "Message"])
+        log_df.to_csv("chat_log.csv", index=False)
+        st.session_state.user_input = ""
+        st.stop()
     result = rag_chain.invoke({"question": query})
     answer = result["answer"]
     sources = result.get("source_documents", [])
