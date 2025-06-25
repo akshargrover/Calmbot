@@ -52,13 +52,13 @@ def check_crisis_words(text):
     return any(word in text_lower for word in crisis_keywords)
 
 CRISIS_RESPONSE = (
-    "I'm really sorry you're feeling this way. You're not alone — there are people who care about you and want to help."
-    "💙 Please reach out to someone you trust or contact a mental health professional."
-    "**If you're in immediate danger**, please call emergency services or reach out to a suicide prevention hotline:"
-    "- 🇺🇸 USA: 988"
-    "- 🇮🇳 India: 9152987821 (AASRA)"
-    "- 🌍 Global: [Find hotlines](https://findahelpline.com)"
-    "You're valued and your life matters. Talking to someone can make a big difference."
+    "I'm really sorry you're feeling this way. You're not alone — there are people who care about you and want to help.\n"
+    "💙 Please reach out to someone you trust or contact a mental health professional.\n"
+    "**If you're in immediate danger**, please call emergency services or reach out to a suicide prevention hotline:\n"
+    "- 🇺🇸 USA: 988\n"
+    "- 🇮🇳 India: 9152987821 (AASRA)\n"
+    "- 🌍 Global: [Find hotlines](https://findahelpline.com)\n"
+    "You're valued and your life matters. Talking to someone can make a big difference.\n"
 )
 
 # --- VECTOR STORE ---
