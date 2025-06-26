@@ -64,7 +64,7 @@ CRISIS_RESPONSE = (
 # --- VECTOR STORE ---
 embedding_model = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key=GOOGLE_API_KEY)
 vectorstore = FAISS.from_documents(docs, embedding_model)
-retriever = vectorstore.as_retriever(search_kwargs={"k": 5})
+retriever = vectorstore.as_retriever(search_type="mmr", search_kwargs={"k": 5, "score_threshold": 0.5})
 
 # --- LLM & PROMPT ---
 llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.3, google_api_key=GOOGLE_API_KEY)
