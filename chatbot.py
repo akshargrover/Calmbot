@@ -24,7 +24,6 @@ GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
 # Paths
 DOCS_DIR = "mental_health_docs"
-DB_DIR = "chroma_db"
 os.makedirs(DOCS_DIR, exist_ok=True)
 
 # --- STREAMLIT UI ---
