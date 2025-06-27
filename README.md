@@ -60,7 +60,6 @@ Calmbot/
   requirements.txt      # Python dependencies
   chat_log.csv          # Chat history log
   mental_health_docs/   # PDF documents for RAG
-  chroma_db/            # Vector store (auto-generated)
   documents/            # (Unused, for future expansion)
   README.md             # This file
 ```
