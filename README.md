@@ -17,6 +17,9 @@ CalmBot is a compassionate mental health chatbot that uses Retrieval-Augmented G
 - Option to show document sources for transparency
 - Chat history is saved to a CSV file
 
+  ![image](https://github.com/user-attachments/assets/502a9d91-92d4-4849-befa-b42aca6c49f9)
+
+
 ## Requirements
 - Python 3.10
 - Google API Key (for Gemini)
